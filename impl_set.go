@@ -6,6 +6,15 @@ func NewSet[T comparable]() Set[T] {
 	return DefaultSet[T](make(map[T]bool))
 }
 
+func NewSetWithArgs[T comparable](args ...T) Set[T] {
+	set := DefaultSet[T](make(map[T]bool))
+	for _, arg := range args {
+		set.Set(arg)
+	}
+
+	return set
+}
+
 func (s DefaultSet[T]) Contains(value T) bool {
 	raw := s.raw()
 	if t, ok := raw[value]; t && ok {
