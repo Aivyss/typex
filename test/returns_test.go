@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"github.com/aivyss/typex"
 	"github.com/aivyss/typex/util"
 	"testing"
@@ -42,5 +43,27 @@ func TestReturns(t *testing.T) {
 		if val == "" || err != nil {
 			t.Fatal("unexpected result3")
 		}
+	})
+
+	t.Run("temp", func(t *testing.T) {
+		type testStruct struct {
+			Value string
+		}
+
+		v := &testStruct{
+			Value: "test1",
+		}
+		object := typex.NewReturn(v)
+		st, err := object.Get()
+		if err != nil {
+			fmt.Println("err =", err)
+		}
+		fmt.Println("st.Value =", st.Value)
+		v.Value = "test2"
+		st, err = object.Get()
+		if err != nil {
+			fmt.Println("err =", err)
+		}
+		fmt.Println("st.Value =", st.Value)
 	})
 }

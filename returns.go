@@ -28,6 +28,10 @@ func (r *Returns[T]) IsInit() bool {
 	return r.initialized
 }
 
+func (r *Returns[T]) GetPointer() *T {
+	return r.value
+}
+
 func NewReturnsWithErr[T any](v *T, err error) Returns[T] {
 	if util.IsNil(v) {
 		return Returns[T]{
