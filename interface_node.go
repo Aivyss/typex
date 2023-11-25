@@ -3,7 +3,8 @@ package typex
 type DescendNode[T any] interface {
 	HasDescendants() bool
 	AddDescendant(t T)
-	GetDescendants() []DefaultDescendNode[T]
+	AddDescendantNode(node DescendNode[T])
+	GetDescendants() []DescendNode[T]
 	This() T
 }
 
@@ -14,7 +15,11 @@ type MutableDescendNode[T any] interface {
 
 type DefaultDescendNode[T any] struct {
 	this        T
-	descendants []DefaultDescendNode[T]
+	descendants []DescendNode[T]
+}
+
+func (n *DefaultDescendNode[T]) AddDescendantNode(node DescendNode[T]) {
+	n.descendants = append(n.descendants, node)
 }
 
 func (n *DefaultDescendNode[T]) This() T {
@@ -26,13 +31,13 @@ func (n *DefaultDescendNode[T]) HasDescendants() bool {
 }
 
 func (n *DefaultDescendNode[T]) AddDescendant(t T) {
-	n.descendants = append(n.descendants, DefaultDescendNode[T]{
+	n.descendants = append(n.descendants, &DefaultDescendNode[T]{
 		this:        t,
-		descendants: []DefaultDescendNode[T]{},
+		descendants: []DescendNode[T]{},
 	})
 }
 
-func (n *DefaultDescendNode[T]) GetDescendants() []DefaultDescendNode[T] {
+func (n *DefaultDescendNode[T]) GetDescendants() []DescendNode[T] {
 	return n.descendants
 }
 
@@ -43,13 +48,13 @@ func (n *DefaultDescendNode[T]) SetThis(t T) {
 func NewDescendNode[T any](t T) DescendNode[T] {
 	return &DefaultDescendNode[T]{
 		this:        t,
-		descendants: []DefaultDescendNode[T]{},
+		descendants: []DescendNode[T]{},
 	}
 }
 
 func NewMutableDescendNode[T any](t T) MutableDescendNode[T] {
 	return &DefaultDescendNode[T]{
 		this:        t,
-		descendants: []DefaultDescendNode[T]{},
+		descendants: []DescendNode[T]{},
 	}
 }
