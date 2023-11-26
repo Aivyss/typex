@@ -1,4 +1,4 @@
-package util
+package types
 
 import (
 	"errors"
@@ -78,21 +78,18 @@ func inKindGroup(k reflect.Kind, group []reflect.Kind) bool {
 	return flag
 }
 
-func ConvertType[T any](original interface{}) (*T, error) {
-	if original == nil {
-		return nil, errors.New("fail to assert type to generic type(nil value)")
+func ConvertType[T any](original interface{}) (T, error) {
+	if IsNil(original) {
+		var t T
+		return t, errors.New("fail to assert type to generic type(nil value)")
 	}
 
 	t, ok := original.(T)
 
 	if !ok {
-		return nil, errors.New("fail to assert type to generic type(not same type)")
+		var t T
+		return t, errors.New("fail to assert type to generic type(not same type)")
 	}
 
-	var tmp *T
-	if &t == tmp {
-		return nil, errors.New("fail to assert type to generic type(the converted result is null)")
-	}
-
-	return &t, nil
+	return t, nil
 }

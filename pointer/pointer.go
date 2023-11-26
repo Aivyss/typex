@@ -1,13 +1,14 @@
-package util
+package pointer
 
 import (
 	"errors"
 	"fmt"
+	"github.com/aivyss/typex/types"
 	"runtime"
 )
 
 func Pointer[T any](value T) (*T, error) {
-	if IsNil(value) {
+	if types.IsNil(value) {
 		return nil, errors.New("value is nil")
 	}
 

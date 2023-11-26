@@ -2,7 +2,7 @@ package typex
 
 import (
 	"errors"
-	"github.com/aivyss/typex/util"
+	"github.com/aivyss/typex/types"
 )
 
 type Returns[T any] struct {
@@ -12,7 +12,7 @@ type Returns[T any] struct {
 }
 
 func (r *Returns[T]) Get() (T, error) {
-	if util.IsNil(r.value) {
+	if types.IsNil(r.value) {
 		var zeroValue T
 		return zeroValue, r.err
 	}
@@ -33,7 +33,7 @@ func (r *Returns[T]) GetPointer() *T {
 }
 
 func NewReturnsWithErr[T any](v *T, err error) Returns[T] {
-	if util.IsNil(v) {
+	if types.IsNil(v) {
 		return Returns[T]{
 			value:       nil,
 			initialized: false,

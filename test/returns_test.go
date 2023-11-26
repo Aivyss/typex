@@ -3,7 +3,7 @@ package test
 import (
 	"fmt"
 	"github.com/aivyss/typex"
-	"github.com/aivyss/typex/util"
+	"github.com/aivyss/typex/pointer"
 	"testing"
 )
 
@@ -28,7 +28,7 @@ func TestReturns(t *testing.T) {
 	})
 
 	t.Run("not nil", func(t *testing.T) {
-		var testVal = util.MustPointer("abcd")
+		var testVal = pointer.MustPointer("abcd")
 		object := typex.NewReturn(testVal)
 
 		if !object.IsInit() {

@@ -1,11 +1,13 @@
-package util
+package strings
 
 import "strings"
 
 func IsBlank(input string) bool {
 	input = ReplaceNewLineAndTabToSpace(input)
-	input = strings.TrimSpace(input)
+	return IsEmpty(input)
+}
 
+func IsEmpty(input string) bool {
 	return len(input) == 0
 }
 

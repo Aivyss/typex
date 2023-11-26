@@ -2,7 +2,7 @@ package typex
 
 import (
 	"errors"
-	"github.com/aivyss/typex/util"
+	"github.com/aivyss/typex/types"
 )
 
 type DefaultSwitcher[T comparable] struct {
@@ -18,7 +18,7 @@ func NewSwitcher[T comparable]() Switcher[T] {
 }
 
 func (s *DefaultSwitcher[T]) Set(key T, consumer func(v *T)) error {
-	if util.IsNil(consumer) {
+	if types.IsNil(consumer) {
 		return errors.New("consumer is nil")
 	}
 
@@ -28,7 +28,7 @@ func (s *DefaultSwitcher[T]) Set(key T, consumer func(v *T)) error {
 }
 
 func (s *DefaultSwitcher[T]) SetDefault(consumer func(v *T)) error {
-	if util.IsNil(consumer) {
+	if types.IsNil(consumer) {
 		return errors.New("consumer is nil")
 	}
 
@@ -40,7 +40,7 @@ func (s *DefaultSwitcher[T]) SetDefault(consumer func(v *T)) error {
 func (s *DefaultSwitcher[T]) Switch(key T) error {
 	consumer := s.m[key]
 
-	if util.IsNil(consumer) {
+	if types.IsNil(consumer) {
 		return errors.New("consumer is nil")
 	}
 
