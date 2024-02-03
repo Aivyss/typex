@@ -1,8 +1,7 @@
-package test
+package collection
 
 import (
-	"github.com/aivyss/typex/slice"
-	"github.com/aivyss/typex/testTool"
+	"github.com/stretchr/testify/assert"
 	"sync"
 	"testing"
 )
@@ -10,14 +9,14 @@ import (
 func TestForEach(t *testing.T) {
 	var sum int
 	var mutex sync.Mutex
-	testSlice := slice.Range(1, 10)
-	slice.ForEach(testSlice, func(elem int) {
+	testSlice := Range(1, 10)
+	ForEach(testSlice, func(elem int) {
 		mutex.Lock()
 		sum += elem
 		mutex.Unlock()
 	})
 
-	testTool.Equal(t, 55, sum)
+	assert.Equal(t, 55, sum)
 }
 
 func TestMap(t *testing.T) {
@@ -38,35 +37,35 @@ func TestMap(t *testing.T) {
 		expected = append(expected, convert{Value: i + 1})
 	}
 
-	actual := slice.Map(testSlice, func(o original) convert {
+	actual := Map(testSlice, func(o original) convert {
 		mutex.Lock()
 		sum += o.Value
 		mutex.Unlock()
 		return convert{Value: o.Value}
 	})
 
-	testTool.EqualSlice(t, expected, actual)
-	testTool.Equal(t, 55, sum)
+	assert.Equal(t, expected, actual)
+	assert.Equal(t, 55, sum)
 }
 
 func TestRange(t *testing.T) {
 	t.Run("ascend", func(t *testing.T) {
-		actual := slice.Range(1, 10)
+		actual := Range(1, 10)
 		expected := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-		testTool.EqualSlice(t, expected, actual)
+		assert.Equal(t, expected, actual)
 	})
 
 	t.Run("descend", func(t *testing.T) {
-		actual := slice.Range(5, -3)
+		actual := Range(5, -3)
 		expected := []int{5, 4, 3, 2, 1, 0, -1, -2, -3}
 
-		testTool.EqualSlice(t, expected, actual)
+		assert.Equal(t, expected, actual)
 	})
 }
 
 func TestContains(t *testing.T) {
-	nums := slice.Range(1, 10)
-	testTool.True(t, slice.Contains(nums, 1))
-	testTool.False(t, slice.Contains(nums, 11))
+	nums := Range(1, 10)
+	assert.True(t, Contains(nums, 1))
+	assert.False(t, Contains(nums, 11))
 }

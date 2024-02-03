@@ -1,4 +1,4 @@
-package slice
+package collection
 
 func Filter[T any](slice []T, predicate func(t T) bool) []T {
 	if slice == nil {
@@ -56,4 +56,17 @@ func Range(start, end int) []int {
 	}
 
 	return nums
+}
+
+func Reduce[T any](list []T, reducer func(prev T, curr T) T) T {
+	copyList := make([]T, 0, len(list))
+	copyList = append(copyList, list...)
+
+	for i := 1; i < len(copyList); i += 1 {
+		prev := copyList[i-1]
+		curr := copyList[i]
+		copyList[i] = reducer(prev, curr)
+	}
+
+	return copyList[len(copyList)-1]
 }

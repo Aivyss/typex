@@ -1,27 +1,13 @@
-package pointer
+package utilx
 
 import (
 	"errors"
 	"fmt"
-	"github.com/aivyss/typex/types"
 	"runtime"
 )
 
-func Pointer[T any](value T) (*T, error) {
-	if types.IsNil(value) {
-		return nil, errors.New("value is nil")
-	}
-
-	return &value, nil
-}
-
-func MustPointer[T any](value T) *T {
-	pointer, err := Pointer(value)
-	if err != nil {
-		panic(err)
-	}
-
-	return pointer
+func Pointer[T any](value T) *T {
+	return &value
 }
 
 func Value[T any](p *T) (t T, err error) {

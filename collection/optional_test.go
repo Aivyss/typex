@@ -1,17 +1,16 @@
-package test
+package collection
 
 import (
-	"github.com/aivyss/typex"
-	"github.com/aivyss/typex/pointer"
+	"github.com/aivyss/typex/utilx"
 	"testing"
 )
 
 func TestOpt(t *testing.T) {
 	t.Run("ifPresent-elseDo", func(t *testing.T) {
 		var num *int = nil
-		defaultValue := pointer.MustPointer(123)
+		defaultValue := utilx.Pointer(123)
 
-		opt := typex.MustOptWithDefault(num, defaultValue)
+		opt := MustOptWithDefault(num, defaultValue)
 		opt.IfPresent(func(value *int) {
 			t.Fatal("wrong result")
 		})
@@ -29,7 +28,7 @@ func TestOpt(t *testing.T) {
 		str := "value"
 		defaultStr := "default"
 
-		opt := typex.MustOptWithDefault(str, defaultStr)
+		opt := MustOptWithDefault(str, defaultStr)
 		value := opt.MustGetOrDefault()
 
 		if value != str {
@@ -45,12 +44,9 @@ func TestOpt(t *testing.T) {
 
 	t.Run("*strings", func(t *testing.T) {
 		var strNil *string = nil
-		strPointer, err := pointer.Pointer("strings")
-		if err != nil {
-			t.Fatal(err)
-		}
+		strPointer := utilx.Pointer("strings")
 
-		opt := typex.MustOptWithDefault(strNil, strPointer)
+		opt := MustOptWithDefault(strNil, strPointer)
 		defaultValue := opt.MustGetOrDefault()
 
 		if strPointer != defaultValue {
@@ -67,7 +63,7 @@ func TestOpt(t *testing.T) {
 	t.Run("[]strings", func(t *testing.T) {
 		var sliceNil []string = nil
 		expectedDefault := []string{"test"}
-		opt := typex.MustOptWithDefault(sliceNil, expectedDefault)
+		opt := MustOptWithDefault(sliceNil, expectedDefault)
 		defaultValue := opt.MustGetOrDefault()
 
 		if len(defaultValue) != 1 || defaultValue[0] != "test" {
@@ -78,7 +74,7 @@ func TestOpt(t *testing.T) {
 	t.Run("*[]strings", func(t *testing.T) {
 		var sliceNil *[]string = nil
 		expectedDefault := &[]string{"test"}
-		opt := typex.MustOptWithDefault(sliceNil, expectedDefault)
+		opt := MustOptWithDefault(sliceNil, expectedDefault)
 		defaultValue := opt.MustGetOrDefault()
 
 		if defaultValue == nil || len(*defaultValue) != 1 || (*defaultValue)[0] != "test" {
@@ -89,7 +85,7 @@ func TestOpt(t *testing.T) {
 	t.Run("map", func(t *testing.T) {
 		var mapNil map[string]any = nil
 		expectedDefault := map[string]any{"aa": true}
-		opt := typex.MustOptWithDefault(mapNil, expectedDefault)
+		opt := MustOptWithDefault(mapNil, expectedDefault)
 		defaultValue := opt.MustGetOrDefault()
 
 		if defaultValue == nil || len(defaultValue) == 0 || defaultValue["aa"] == nil {
@@ -99,8 +95,8 @@ func TestOpt(t *testing.T) {
 
 	t.Run("*map", func(t *testing.T) {
 		var mapNil *map[string]any = nil
-		expectedDefault := pointer.MustPointer(map[string]any{"aa": true})
-		opt := typex.MustOptWithDefault(mapNil, expectedDefault)
+		expectedDefault := utilx.Pointer(map[string]any{"aa": true})
+		opt := MustOptWithDefault(mapNil, expectedDefault)
 		defaultValue := opt.MustGetOrDefault()
 
 		if defaultValue == nil || len(*defaultValue) == 0 || (*defaultValue)["aa"] == nil {
@@ -115,7 +111,7 @@ func TestOpt(t *testing.T) {
 
 		value := someType{value: "test"}
 		defaultValue := someType{value: "defaultValue"}
-		opt := typex.MustOptWithDefault(value, defaultValue)
+		opt := MustOptWithDefault(value, defaultValue)
 		actual := opt.MustGetOrDefault()
 
 		if actual != value {
@@ -130,7 +126,7 @@ func TestOpt(t *testing.T) {
 
 		var value *someType = nil
 		defaultValue := &someType{value: "defaultValue"}
-		opt := typex.MustOptWithDefault(value, defaultValue)
+		opt := MustOptWithDefault(value, defaultValue)
 		actual := opt.MustGetOrDefault()
 
 		if actual != defaultValue {

@@ -1,4 +1,4 @@
-package typex
+package collection
 
 type DescendNode[T any] interface {
 	HasDescendants() bool
@@ -6,10 +6,6 @@ type DescendNode[T any] interface {
 	AddDescendantNode(node DescendNode[T])
 	GetDescendants() []DescendNode[T]
 	This() T
-}
-
-type MutableDescendNode[T any] interface {
-	DescendNode[T]
 	SetThis(t T)
 }
 
@@ -46,13 +42,6 @@ func (n *defaultDescendNode[T]) SetThis(t T) {
 }
 
 func NewDescendNode[T any](t T) DescendNode[T] {
-	return &defaultDescendNode[T]{
-		this:        t,
-		descendants: []DescendNode[T]{},
-	}
-}
-
-func NewMutableDescendNode[T any](t T) MutableDescendNode[T] {
 	return &defaultDescendNode[T]{
 		this:        t,
 		descendants: []DescendNode[T]{},

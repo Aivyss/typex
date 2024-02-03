@@ -1,13 +1,12 @@
-package test
+package collection
 
 import (
-	"github.com/aivyss/typex"
-	"github.com/aivyss/typex/pointer"
+	"github.com/aivyss/typex/utilx"
 	"testing"
 )
 
 func TestPairs(t *testing.T) {
-	m := typex.CreateMap[string, string]([]typex.Pair[string, string]{
+	m := CreateMap[string, string]([]MapPair[string, string]{
 		{Key: "key1", Value: "value1"},
 		{Key: "key2", Value: "value2"},
 		{Key: "key3", Value: "value3"},
@@ -21,10 +20,10 @@ func TestPairs(t *testing.T) {
 		t.Fatal("unexpected result 1")
 	}
 
-	m2 := typex.CreateNotNilMap[string, *string]([]typex.Pair[string, *string]{
-		{Key: "key1", Value: pointer.MustPointer("value1")},
+	m2 := CreateNotNilMap[string, *string]([]MapPair[string, *string]{
+		{Key: "key1", Value: utilx.Pointer("value1")},
 		{Key: "key2", Value: nil},
-		{Key: "key3", Value: pointer.MustPointer("value3")},
+		{Key: "key3", Value: utilx.Pointer("value3")},
 	})
 
 	_, ok1 = m2["key1"]

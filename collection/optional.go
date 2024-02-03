@@ -1,8 +1,8 @@
-package typex
+package collection
 
 import (
 	"errors"
-	"github.com/aivyss/typex/types"
+	"github.com/aivyss/typex/utilx"
 )
 
 type Optional[T any] struct {
@@ -16,7 +16,7 @@ type ElseDo struct {
 }
 
 func (o *Optional[T]) SetMustDefault(value T) *Optional[T] {
-	if types.IsNil(value) {
+	if utilx.IsNil(value) {
 		panic("default value is nil")
 	}
 
@@ -27,7 +27,7 @@ func (o *Optional[T]) SetMustDefault(value T) *Optional[T] {
 }
 
 func (o *Optional[T]) SetDefault(value T) (*Optional[T], error) {
-	if types.IsNil(value) {
+	if utilx.IsNil(value) {
 		return nil, errors.New("default value is nil")
 	}
 
@@ -38,7 +38,7 @@ func (o *Optional[T]) SetDefault(value T) (*Optional[T], error) {
 }
 
 func (o *Optional[T]) Get() (T, error) {
-	if types.IsNil(o.value) {
+	if utilx.IsNil(o.value) {
 		return o.value, errors.New("value is nil")
 	}
 
@@ -78,7 +78,7 @@ func (o *Optional[T]) MustGetOrDefault() T {
 
 func (o *Optional[T]) IfPresent(consumer func(value T)) *ElseDo {
 	flag := true
-	if !types.IsNil(o.value) {
+	if !utilx.IsNil(o.value) {
 		consumer(o.value)
 		flag = false
 	}
@@ -87,7 +87,7 @@ func (o *Optional[T]) IfPresent(consumer func(value T)) *ElseDo {
 }
 
 func (o *Optional[T]) IfPresentWithDefault(consumer func(value T)) *ElseDo {
-	if !types.IsNil(o.value) {
+	if !utilx.IsNil(o.value) {
 		consumer(o.value)
 		return &ElseDo{flag: false}
 	}
@@ -115,7 +115,7 @@ func Opt[T any](value T) *Optional[T] {
 }
 
 func OptWithDefault[T any](value T, defaultValue T) (*Optional[T], error) {
-	if types.IsNil(defaultValue) {
+	if utilx.IsNil(defaultValue) {
 		return nil, errors.New("default value is nil")
 	}
 
