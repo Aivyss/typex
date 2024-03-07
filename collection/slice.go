@@ -15,6 +15,20 @@ func Filter[T any](slice []T, predicate func(t T) bool) []T {
 	return result
 }
 
+func FindFirst[T any](slice []T, predicate func(t *T) bool) *T {
+	if slice == nil {
+		return nil
+	}
+
+	for _, t := range slice {
+		if predicate(&t) {
+			return &t
+		}
+	}
+
+	return nil
+}
+
 func Contains[T comparable](slice []T, value T) bool {
 	for _, v := range slice {
 		if v == value {

@@ -69,3 +69,18 @@ func TestContains(t *testing.T) {
 	assert.True(t, Contains(nums, 1))
 	assert.False(t, Contains(nums, 11))
 }
+
+func TestFindFirst(t *testing.T) {
+	strs := []string{"apple", "banana", "tomato"}
+
+	first := FindFirst(strs, func(str *string) bool {
+		return *str == "banana"
+	})
+	assert.NotNil(t, first)
+	assert.Equal(t, "banana", *first)
+
+	first = FindFirst(strs, func(str *string) bool {
+		return *str == "graph"
+	})
+	assert.Nil(t, first)
+}
